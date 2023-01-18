@@ -8,13 +8,23 @@
 import SwiftUI
 
 struct ContentView: View {
+    @State private var givenName: String = ""
+    @State private var familyName: String = ""
+    
     var body: some View {
         VStack {
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundColor(.accentColor)
-            Text("Hello, world!")
+            TextField(
+                "Given Name",
+                text: $givenName
+            )
+            .disableAutocorrection(true)
+            TextField(
+                "Family Name",
+                text: $familyName
+            )
+            .disableAutocorrection(true)
         }
+        .textFieldStyle(.roundedBorder)
         .padding()
     }
 }
