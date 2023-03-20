@@ -1,8 +1,8 @@
 //
-//  iAffordableApp.swift
+//  ContentView.swift
 //  iAffordable
 //
-//  Created by Gabriel Marquez on 2023-01-18.
+//  Created by Gabriel Marquez on 2023-03-20.
 //
 
 import SwiftUI
