@@ -22,10 +22,10 @@ struct ContentView: View {
         NavigationView {
             Form {
                 Section {
-                    TextField("Enter total annual income", value: $totalAnnualIncomeAfterTaxes, formatter: formatter)
+                    TextField("Enter total annual income", value: $totalAnnualIncomeAfterTaxes, format: .currency(code: "USD"))
                 }
                 Section {
-                    TextField("Enter property total value", value: $totalValueProperty, formatter: formatter)
+                    TextField("Enter property total value", value: $totalValueProperty, format: .currency(code: "USD"))
                 }
             }
             .navigationTitle("iAffordable")
