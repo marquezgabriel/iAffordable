@@ -14,6 +14,15 @@ struct ContentView: View {
     
     @FocusState private var amountIsFocused: Bool
     
+    var isAffordable: Bool {
+        if (totalValueProperty <= (3 * totalAnnualIncomeAfterTaxes)) {
+            return true
+        }
+        else {
+            return false
+        }
+    }
+    
     var body: some View {
         NavigationView {
             Form {
@@ -32,7 +41,18 @@ struct ContentView: View {
                         .lineLimit(1)
                 }
                 Section {
-                    
+                    if (totalValueProperty <= (3 * totalAnnualIncomeAfterTaxes)) {
+                        Text("👍")
+                            .font(.system(size: 50))
+                            .foregroundColor(.red)
+                        } else {
+                            Text("👎")
+                                .font(.system(size: 50))
+                                .foregroundColor(.red)
+                        }
+                } header: {
+                    Text("Could you afford it?")
+                        .lineLimit(1)
                 }
             }
             .keyboardType(.decimalPad)
