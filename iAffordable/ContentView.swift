@@ -9,26 +9,23 @@ import SwiftUI
 
 struct ContentView: View {
     
-    @State private var totalAnnualIncomeAfterTaxes:Double = 40000
-    @State private var totalValueProperty:Double = 120000
+    @State private var totalAnnualIncomeAfterTaxes: Int = 0
+    @State private var totalValueProperty: Int = 0
     
     @FocusState private var amountIsFocused: Bool
     
-    var isAffordable: Bool {
-        if (totalValueProperty <= (3 * totalAnnualIncomeAfterTaxes)) {
-            return true
-        }
-        else {
-            return false
-        }
-    }
+    @State private var isAffordable: Bool = true
     
     var body: some View {
         NavigationView {
             Form {
                 Section {
-                    TextField("Total annual income - Taxes", value: $totalAnnualIncomeAfterTaxes, format: .currency(code: "USD"))
+                    TextField("Total annual income after Taxes", value: $totalAnnualIncomeAfterTaxes, format: .currency(code: "USD"))
                         .focused($amountIsFocused)
+                        .keyboardType(.decimalPad)
+                        .onChange(of: totalAnnualIncomeAfterTaxes) { _ in
+                            updateAffordability()
+                        }
                 } header: {
                     Text("Total annual income")
                         .lineLimit(1)
@@ -36,26 +33,29 @@ struct ContentView: View {
                 Section {
                     TextField("Property total value", value: $totalValueProperty, format: .currency(code: "USD"))
                         .focused($amountIsFocused)
+                        .keyboardType(.decimalPad)
+                        .onChange(of: totalValueProperty) { _ in
+                            updateAffordability()
+                        }
                 } header: {
                     Text("Total value of the property")
                         .lineLimit(1)
                 }
                 Section {
-                    if (totalValueProperty <= (3 * totalAnnualIncomeAfterTaxes)) {
+                    if isAffordable {
                         Text("👍")
                             .font(.system(size: 50))
                             .foregroundColor(.red)
-                        } else {
-                            Text("👎")
-                                .font(.system(size: 50))
-                                .foregroundColor(.red)
-                        }
+                    } else {
+                        Text("👎")
+                            .font(.system(size: 50))
+                            .foregroundColor(.red)
+                    }
                 } header: {
                     Text("Could you afford it?")
                         .lineLimit(1)
                 }
             }
-            .keyboardType(.decimalPad)
             .navigationTitle("iAffordable")
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
@@ -66,6 +66,14 @@ struct ContentView: View {
                     }
                 }
             }
+        }
+    }
+    
+    private func updateAffordability() {
+        if totalValueProperty <= (3 * totalAnnualIncomeAfterTaxes) {
+            isAffordable = true
+        } else {
+            isAffordable = false
         }
     }
 }
